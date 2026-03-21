@@ -6,5 +6,6 @@ public enum ParticleFlavor {
     FIRE,
     EMPTY,
     FOUNTAIN,
-    FLOWER
+    FLOWER,
+    WATERSAND
 }
