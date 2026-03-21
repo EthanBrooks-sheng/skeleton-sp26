@@ -12,7 +12,8 @@ public class ParticleSimulator {
             'f', ParticleFlavor.FIRE,
             '.', ParticleFlavor.EMPTY,
             'n', ParticleFlavor.FOUNTAIN,
-            'z', ParticleFlavor.FLOWER
+            'z', ParticleFlavor.FLOWER,
+            'x', ParticleFlavor.WATERSAND
     );
 
     public Particle[][] particles;
@@ -71,6 +72,7 @@ public class ParticleSimulator {
             for (int y = 0; y < height; y += 1) {
                 Map<Direction, Particle> neighbors = getNeighbors(x, y);
                 particles[x][y].action(neighbors);
+                particles[x][y].decrementLifespan();
             }
         }
     }
