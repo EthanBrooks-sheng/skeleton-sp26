@@ -136,7 +136,9 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public T get(int index) {
-        return null;
+        if (index < 0 || index >= size)
+            return null;
+        return items[(nextFirst + 1 + index) % length];
     }
 
     /**
@@ -149,7 +151,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public T getRecursive(int index) {
-        return null;
+        throw new UnsupportedOperationException("No need to implement getRecursive for ArrayDeque61B.");
     }
 
     public static void main(String[] args) {
