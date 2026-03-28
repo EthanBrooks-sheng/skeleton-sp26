@@ -23,9 +23,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
     public void addFirst(T x) {
         items[nextFirst] = x;
         size++;
-        nextFirst--;
-        if (nextFirst < 0)
-            nextFirst = length - 1;
+        nextFirst = (nextFirst - 1 + length) % length;
     }
 
     /**
@@ -90,7 +88,9 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public T getFirst() {
-        return null;
+        if (size == 0)
+            return null;
+        return items[(nextFirst + 1) % length];
     }
 
     /**
@@ -100,7 +100,9 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public T getLast() {
-        return null;
+        if (size == 0)
+            return null;
+        return items[(nextLast - 1 + length) % length];
     }
 
     /**
