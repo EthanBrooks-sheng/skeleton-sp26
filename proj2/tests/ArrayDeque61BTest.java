@@ -17,6 +17,7 @@ public class ArrayDeque61BTest {
         expected.addFirst(10); // [10, 0, 1, 2, 3]
         expected.addLast(15);  // [10, 0, 1, 2, 3, 15]
         expected.addLast(20);  // [10, 0, 1, 2, 3, 15, 20]
+        assertThat(expected.toList()).containsExactly(10, 0, 1, 2, 3, 15, 20).inOrder();
         expected.addLast(25);  // [10, 0, 1, 2, 3, 15, 20, 25]
         assertThat(expected.toList()).containsExactly(10, 0, 1, 2, 3, 15, 20, 25).inOrder();
     }
@@ -39,6 +40,23 @@ public class ArrayDeque61BTest {
         expected.addFirst(5); // [5, 6, 7, 8, 9, 0, 1, 2]
         assertThat(expected.getFirst()).isEqualTo(5);
         assertThat(expected.getLast()).isEqualTo(2);
+
+    }
+
+    @Test
+    public void getTest() {
+        Deque61B<Integer> expected = new ArrayDeque61B<>();
+        assertThat(expected.get(0)).isNull();
+        assertThat(expected.get(-1)).isNull();
+        expected.addFirst(1);
+        assertThat(expected.get(0)).isEqualTo(1);
+        assertThat(expected.get(1)).isNull();
+        expected.addLast(2);
+        expected.addLast(3);
+        expected.addLast(4);
+        expected.addLast(5);
+        assertThat(expected.get(0)).isEqualTo(1);
+        assertThat(expected.get(1)).isEqualTo(2);
 
     }
 }
