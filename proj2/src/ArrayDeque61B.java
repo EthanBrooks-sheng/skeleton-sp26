@@ -15,12 +15,8 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
         nextLast = 4;
     }
 
-    private void resize() {
-        int newLength = length * resizeFactor;
-        T[] newItems = (T []) new Object[(newLength)];
-        int newNextLast = newLength / 2;
-        int newNextFirst = newNextLast - 1;
-
+    // return a new nextLast after copying items to newItems, starting from newNextLast
+    private int copyItems(T[] newItems, int newNextLast, int newLength) {
         int index = (nextFirst + 1) % length;
         int tempSize = size;
         while (tempSize > 0) {
@@ -29,7 +25,29 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
             index = (index + 1) % length;
             tempSize--;
         }
+        return newNextLast;
+    }
 
+    private void resize() {
+        int newLength = length * resizeFactor;
+        T[] newItems = (T []) new Object[(newLength)];
+        int newNextLast = newLength / 2;
+        int newNextFirst = newNextLast - 1;
+
+        newNextLast = copyItems(newItems, newNextLast, newLength);
+        items = newItems;
+        nextFirst = newNextFirst;
+        nextLast = newNextLast;
+        length = newLength;
+    }
+
+    private void resizeDown() {
+        int newLength = length / 2;
+        T[] newItems = (T []) new Object[(newLength)];
+        int newNextLast = newLength / 2;
+        int newNextFirst = newNextLast - 1;
+
+        newNextLast = copyItems(newItems, newNextLast, newLength);
         items = newItems;
         nextFirst = newNextFirst;
         nextLast = newNextLast;
@@ -138,6 +156,8 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
     public T removeFirst() {
         if (size == 0)
             return null;
+        if (size < length / 4 && length > 8)
+            resizeDown();
         int firstIndex = (nextFirst + 1) % length;
         T returnItem = items[firstIndex];
         items[firstIndex] = null;
@@ -155,6 +175,8 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
     public T removeLast() {
         if (size == 0)
             return null;
+        if (size < length / 4 && length > 8)
+            resizeDown();
         int lastIndex = (nextLast - 1 + length) % length;
         T returnItem = items[lastIndex];
         items[lastIndex] = null;
