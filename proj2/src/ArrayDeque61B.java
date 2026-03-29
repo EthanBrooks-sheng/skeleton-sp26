@@ -15,7 +15,26 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
         nextLast = 4;
     }
 
+    private void resize() {
+        int newLength = length * resizeFactor;
+        T[] newItems = (T []) new Object[(newLength)];
+        int newNextLast = newLength / 2;
+        int newNextFirst = newNextLast - 1;
 
+        int index = (nextFirst + 1) % length;
+        int tempSize = size;
+        while (tempSize > 0) {
+            newItems[newNextLast] = items[index];
+            newNextLast = (newNextLast + 1) % newLength;
+            index = (index + 1) % length;
+            tempSize--;
+        }
+
+        items = newItems;
+        nextFirst = newNextFirst;
+        nextLast = newNextLast;
+        length = newLength;
+    }
 
     /**
      * Add {@code x} to the front of the deque. Assumes {@code x} is never null.
@@ -24,6 +43,8 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public void addFirst(T x) {
+        if (size == length)
+            resize();
         items[nextFirst] = x;
         size++;
         nextFirst = (nextFirst - 1 + length) % length;
@@ -36,6 +57,8 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public void addLast(T x) {
+        if (size == length)
+            resize();
         items[nextLast] = x;
         size++;
         nextLast = (nextLast + 1) % length;
