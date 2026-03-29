@@ -4,7 +4,8 @@ import java.util.List;
 public class ArrayDeque61B<T> implements Deque61B<T>{
 
     private int nextFirst, nextLast, size, length;
-    T[] items;
+    private T[] items;
+    private int resizeFactor = 2;
 
     public ArrayDeque61B() {
         size = 0;
@@ -13,6 +14,8 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
         nextFirst = 3;
         nextLast = 4;
     }
+
+
 
     /**
      * Add {@code x} to the front of the deque. Assumes {@code x} is never null.
@@ -49,14 +52,12 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
         if (size == 0) {
             return List.of();
         }
-        int index = nextLast;
-        int tempLength = length;
-        while (tempLength > 0) {
-            if (items[index] != null) {
-                returnList.add(items[index]);
-            }
+        int index = (nextFirst + 1) % length;
+        int tempSize = size;
+        while (tempSize > 0) {
+            returnList.add(items[index]);
             index = (index + 1) % length;
-            tempLength--;
+            tempSize--;
         }
         return returnList;
     }
