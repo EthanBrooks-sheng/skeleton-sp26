@@ -68,7 +68,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -78,7 +78,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -112,7 +112,14 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public T removeFirst() {
-        return null;
+        if (size == 0)
+            return null;
+        int firstIndex = (nextFirst + 1) % length;
+        T returnItem = items[firstIndex];
+        items[firstIndex] = null;
+        size--;
+        nextFirst = firstIndex;
+        return returnItem;
     }
 
     /**
@@ -122,7 +129,14 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public T removeLast() {
-        return null;
+        if (size == 0)
+            return null;
+        int lastIndex = (nextLast - 1 + length) % length;
+        T returnItem = items[lastIndex];
+        items[lastIndex] = null;
+        size--;
+        nextLast = lastIndex;
+        return returnItem;
     }
 
     /**
